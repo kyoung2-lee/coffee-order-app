@@ -1,18 +1,13 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@keyframes slide-in {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-.animate-slide-in {
-  animation: slide-in 0.3s ease-out;
+body {
+  min-height: 100vh;
+  background: url('/bg.png') no-repeat center center fixed;
+  background-size: cover;
 }

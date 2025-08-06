@@ -1,9 +1,12 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { Auth } from 'aws-amplify';
-import { CognitoUser } from '@aws-amplify/auth';
+
+interface User {
+  username: string;
+  email?: string;
+}
 
 interface AuthContextType {
-  user: CognitoUser | null;
+  user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   signIn: (username: string, password: string) => Promise<void>;
@@ -27,66 +30,52 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<CognitoUser | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    checkAuthState();
+    // 로컬 스토리지에서 사용자 정보 확인
+    const savedUser = localStorage.getItem('mockUser');
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
+    setIsLoading(false);
   }, []);
 
-  const checkAuthState = async () => {
-    try {
-      const currentUser = await Auth.currentAuthenticatedUser();
-      setUser(currentUser);
-    } catch (error) {
-      setUser(null);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const signIn = async (username: string, password: string) => {
-    try {
-      const user = await Auth.signIn(username, password);
-      setUser(user);
-    } catch (error) {
-      console.error('Sign in error:', error);
-      throw error;
+    // 모의 로그인 - 간단한 검증
+    if (username && password) {
+      const mockUser = { username, email: `${username}@example.com` };
+      setUser(mockUser);
+      localStorage.setItem('mockUser', JSON.stringify(mockUser));
+    } else {
+      throw new Error('ユーザー名とパスワードを入力してください。');
     }
   };
 
   const signUp = async (username: string, email: string, password: string) => {
-    try {
-      await Auth.signUp({
-        username,
-        password,
-        attributes: {
-          email,
-        },
-      });
-    } catch (error) {
-      console.error('Sign up error:', error);
-      throw error;
+    // 모의 회원가입
+    if (username && email && password) {
+      const mockUser = { username, email };
+      setUser(mockUser);
+      localStorage.setItem('mockUser', JSON.stringify(mockUser));
+    } else {
+      throw new Error('すべての項目を入力してください。');
     }
   };
 
   const confirmSignUp = async (username: string, code: string) => {
-    try {
-      await Auth.confirmSignUp(username, code);
-    } catch (error) {
-      console.error('Confirm sign up error:', error);
-      throw error;
+    // 모의 인증 코드 확인
+    if (code === '123456') {
+      // 성공적으로 처리됨
+    } else {
+      throw new Error('認証コードが正しくありません。');
     }
   };
 
   const signOut = async () => {
-    try {
-      await Auth.signOut();
-      setUser(null);
-    } catch (error) {
-      console.error('Sign out error:', error);
-      throw error;
-    }
+    setUser(null);
+    localStorage.removeItem('mockUser');
   };
 
   const value: AuthContextType = {

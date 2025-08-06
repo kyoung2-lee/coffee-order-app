@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 
-const Login: React.FC = () => {
-  const [username, setUsername] = useState('');
+interface LoginProps {
+  onClickSignUp?: () => void;
+}
+
+const Login: React.FC<LoginProps> = ({ onClickSignUp }) => {
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -12,75 +16,152 @@ const Login: React.FC = () => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
-
+    
     try {
+      const username = email.split('@')[0]; // 이메일에서 사용자명 추출
       await signIn(username, password);
     } catch (error: any) {
-      setError(error.message || 'ログインに失敗しました。');
+      setError(error.message || '로그인에 실패했습니다.');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            コーヒー注文システムにログイン
-          </h2>
+    <div className="min-h-screen w-full flex items-center justify-center">
+      <div className="bg-white/90 p-8 rounded-[12px] shadow-2xl w-[400px] max-w-[90%]">
+        <div className="text-center mb-8">
+          <img 
+            src="/my-logo.svg" 
+            alt="Coffee Day" 
+            className="h-25 max-w-[100px] mb-3 mx-auto" 
+          />
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            Coffee Day
+          </h1>
+          <p className="text-gray-600 text-sm">
+            Sign in to your account
+          </p>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label htmlFor="username" className="sr-only">
-                ユーザー名
-              </label>
-              <input
-                id="username"
-                name="username"
-                type="text"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="ユーザー名"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="sr-only">
-                パスワード
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="パスワード"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-          </div>
 
-          {error && (
-            <div className="text-red-600 text-sm text-center">{error}</div>
-          )}
+        {/* login Form */}
+        <form className="space-y-8" onSubmit={handleSubmit}>
+          <div>
+            <label 
+              htmlFor="email" 
+              className="block font-medium text-gray-700 text-[12px] text-left mb-2"
+            >
+              Email <span className="text-red-500">*</span>
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              required
+              className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm bg-white/50"
+              placeholder="Enter your email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+            />
+          </div>
 
           <div>
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+            <label 
+              htmlFor="password" 
+              className="block font-medium text-gray-700 text-[12px] text-left mb-2"
             >
-              {isLoading ? 'ログイン中...' : 'ログイン'}
-            </button>
+              Password <span className="text-red-500">*</span>
+            </label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autoComplete="current-password"
+              required
+              className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm bg-white/50"
+              placeholder="Enter your password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+            />
           </div>
+
+          <div className="flex items-center justify-between pt-1">
+            <div className="flex items-center">
+              <input
+                id="remember"
+                name="remember"
+                type="checkbox"
+                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+              />
+              <label 
+                htmlFor="remember" 
+                className="ml-3 text-gray-700 text-[12px]"
+              >
+                Remember me
+              </label>
+            </div>
+            <a 
+              href="#" 
+              className="text-gray-600 hover:text-gray-800 text-[12px]"
+            >
+              Forgot password?
+            </a>
+          </div>
+
+          {/* error message */}
+          {error && (
+            <div className="text-red-600 text-sm text-center">
+              {error}
+            </div>
+          )}
+
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full mt-1 mb-6 py-[0.875rem] px-4 bg-[#ff6d4d] text-white text-sm font-medium rounded-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+          >
+            {isLoading ? 'Logging...' : 'Sign In'}
+          </button>
         </form>
+
+        <div className="flex items-center my-4">
+          <div className="flex-grow border-t border-gray-300/30"></div>
+          <span className="mx-2 text-gray-500 bg-white/40 px-2 text-[12px]">
+            Or continue with
+          </span>
+          <div className="flex-grow border-t border-gray-300/30"></div>
+        </div>
+
+        <div className="grid grid-cols-3 gap-3 mt-1">
+          <button className="w-full px-4 py-3 bg-white/20 hover:bg-white/30 text-gray-700 rounded-lg border border-gray-300/30 transition-colors">
+            <i className="fab fa-google"></i>
+          </button>
+          <button className="w-full px-4 py-3 bg-white/20 hover:bg-white/30 text-gray-700 rounded-lg border border-gray-300/30 transition-colors">
+            <i className="fab fa-github"></i>
+          </button>
+          <button className="w-full px-4 py-3 bg-white/20 hover:bg-white/30 text-gray-700 rounded-lg border border-gray-300/30 transition-colors">
+            <i className="fab fa-instagram"></i>
+          </button>
+        </div>
+
+        {onClickSignUp && (
+          <div className="text-center mt-8">
+            <p className="text-gray-600 text-[12px] mt-6">
+              Don't have an account?{' '}
+              <a 
+                href="#" 
+                onClick={onClickSignUp} 
+                className="font-medium text-indigo-600 hover:text-indigo-800"
+              >
+                Sign up now
+              </a>
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default Login; 
+export default Login;

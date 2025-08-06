@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
-import NotificationCenter from './components/NotificationCenter';
-import './amplify';
 import './App.css';
 
 const AppContent: React.FC = () => {
@@ -38,15 +36,7 @@ const AppContent: React.FC = () => {
           </div>
         ) : (
           <div>
-            <Login />
-            <div className="text-center mt-4">
-              <button
-                onClick={() => setShowSignUp(true)}
-                className="text-indigo-600 hover:text-indigo-500"
-              >
-                アカウントをお持ちでないですか？新規登録する
-              </button>
-            </div>
+            <Login onClickSignUp={() => setShowSignUp(true)} />
           </div>
         )}
       </div>
@@ -102,7 +92,6 @@ const App: React.FC = () => {
   return (
     <AuthProvider>
       <AppContent />
-      <NotificationCenter />
     </AuthProvider>
   );
 };
