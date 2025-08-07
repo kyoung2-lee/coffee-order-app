@@ -18,10 +18,10 @@ const Login: React.FC<LoginProps> = ({ onClickSignUp }) => {
     setIsLoading(true);
     
     try {
-      const username = email.split('@')[0]; // 이메일에서 사용자명 추출
+      const username = email.split('@')[0]; // emailからusernameを取得 (任意)
       await signIn(username, password);
     } catch (error: any) {
-      setError(error.message || '로그인에 실패했습니다.');
+      setError(error.message || 'ログインに失敗しました。');
     } finally {
       setIsLoading(false);
     }
@@ -31,11 +31,7 @@ const Login: React.FC<LoginProps> = ({ onClickSignUp }) => {
     <div className="min-h-screen w-full flex items-center justify-center">
       <div className="bg-white/90 p-8 rounded-[12px] shadow-2xl w-[400px] max-w-[90%]">
         <div className="text-center mb-8">
-          <img 
-            src="/my-logo.svg" 
-            alt="Coffee Day" 
-            className="h-25 max-w-[100px] mb-3 mx-auto" 
-          />
+          <img src="/my-logo.svg" alt="Coffee Day" className="h-25 max-w-[100px] mb-3 mx-auto" />
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
             Coffee Day
           </h1>
@@ -47,10 +43,7 @@ const Login: React.FC<LoginProps> = ({ onClickSignUp }) => {
         {/* login Form */}
         <form className="space-y-8" onSubmit={handleSubmit}>
           <div>
-            <label 
-              htmlFor="email" 
-              className="block font-medium text-gray-700 text-[12px] text-left mb-2"
-            >
+            <label htmlFor="email" className="block font-medium text-gray-700 text-[12px] text-left mb-2">
               Email <span className="text-red-500">*</span>
             </label>
             <input
@@ -67,10 +60,7 @@ const Login: React.FC<LoginProps> = ({ onClickSignUp }) => {
           </div>
 
           <div>
-            <label 
-              htmlFor="password" 
-              className="block font-medium text-gray-700 text-[12px] text-left mb-2"
-            >
+            <label htmlFor="password" className="block font-medium text-gray-700 text-[12px] text-left mb-2">
               Password <span className="text-red-500">*</span>
             </label>
             <input
@@ -88,23 +78,12 @@ const Login: React.FC<LoginProps> = ({ onClickSignUp }) => {
 
           <div className="flex items-center justify-between pt-1">
             <div className="flex items-center">
-              <input
-                id="remember"
-                name="remember"
-                type="checkbox"
-                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-              />
-              <label 
-                htmlFor="remember" 
-                className="ml-3 text-gray-700 text-[12px]"
-              >
+              <input id="remember" name="remember" type="checkbox" className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"/>
+              <label htmlFor="remember" className="ml-3 text-gray-700 text-[12px]">
                 Remember me
               </label>
             </div>
-            <a 
-              href="#" 
-              className="text-gray-600 hover:text-gray-800 text-[12px]"
-            >
+            <a href="#" className="text-gray-600 hover:text-gray-800 text-[12px]">
               Forgot password?
             </a>
           </div>
@@ -119,8 +98,7 @@ const Login: React.FC<LoginProps> = ({ onClickSignUp }) => {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full mt-1 mb-6 py-[0.875rem] px-4 bg-[#ff6d4d] text-white text-sm font-medium rounded-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
-          >
+            className="w-full mt-1 mb-6 py-[0.875rem] px-4 bg-[#ff6d4d] text-white text-sm font-medium rounded-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50">
             {isLoading ? 'Logging...' : 'Sign In'}
           </button>
         </form>
@@ -149,11 +127,7 @@ const Login: React.FC<LoginProps> = ({ onClickSignUp }) => {
           <div className="text-center mt-8">
             <p className="text-gray-600 text-[12px] mt-6">
               Don't have an account?{' '}
-              <a 
-                href="#" 
-                onClick={onClickSignUp} 
-                className="font-medium text-indigo-600 hover:text-indigo-800"
-              >
+              <a href="#" onClick={onClickSignUp} className="font-medium text-indigo-600 hover:text-indigo-800">
                 Sign up now
               </a>
             </p>

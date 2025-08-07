@@ -13,7 +13,7 @@ const AppContent: React.FC = () => {
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">読み込み中...</p>
+          <p className="mt-4 text-gray-600">Loading...</p>
         </div>
       </div>
     );
@@ -30,7 +30,7 @@ const AppContent: React.FC = () => {
                 onClick={() => setShowSignUp(false)}
                 className="text-indigo-600 hover:text-indigo-500"
               >
-                すでにアカウントをお持ちですか？ログインする
+                Have an account? Sign in here
               </button>
             </div>
           </div>
@@ -49,11 +49,11 @@ const AppContent: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
-              <h1 className="text-xl font-semibold text-gray-900">コーヒー注文システム</h1>
+              <h1 className="text-xl font-semibold text-gray-900">Coffee Day</h1>
             </div>
             <div className="flex items-center space-x-4">
               <span className="text-gray-700">
-                こんにちは、{user?.username || 'ユーザー'}さん！
+                Hi, {user?.username || 'User'}！
               </span>
               <button
                 onClick={signOut}
@@ -74,10 +74,10 @@ const AppContent: React.FC = () => {
                 ログイン成功！
               </h2>
               <p className="text-gray-600">
-                コーヒー注文システムをご利用いただけます。
+                Coffee Dayをご利用いただけます。
               </p>
               <p className="text-sm text-gray-500 mt-2">
- 
+                Thank you for using Coffee Day.
  
               </p>
             </div>
