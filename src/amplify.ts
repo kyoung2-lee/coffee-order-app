@@ -2,7 +2,7 @@ import { Amplify } from 'aws-amplify';
 
 console.log('=== Amplify 設定 start ===');
 
-// Amplify 설정
+// Amplify 設定
 Amplify.configure({
   Auth: {
     Cognito: {
