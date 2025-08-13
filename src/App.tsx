@@ -23,17 +23,7 @@ const AppContent: React.FC = () => {
     return (
       <div>
         {showSignUp ? (
-          <div>
-            <SignUp />
-            <div className="text-center mt-4">
-              <button
-                onClick={() => setShowSignUp(false)}
-                className="text-indigo-600 hover:text-indigo-500"
-              >
-                Have an account? Sign in here
-              </button>
-            </div>
-          </div>
+          <SignUp onBackToLogin={() => setShowSignUp(false)} />
         ) : (
           <div>
             <Login onClickSignUp={() => setShowSignUp(true)} />
@@ -57,7 +47,7 @@ const AppContent: React.FC = () => {
               </span>
               <button
                 onClick={signOut}
-                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+                className="py-[0.875rem] px-4 bg-[#ff6d4d] text-white text-sm font-medium rounded-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 ログアウト
               </button>
@@ -78,7 +68,6 @@ const AppContent: React.FC = () => {
               </p>
               <p className="text-sm text-gray-500 mt-2">
                 Thank you for using Coffee Day.
- 
               </p>
             </div>
           </div>

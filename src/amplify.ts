@@ -1,4 +1,16 @@
 import { Amplify } from 'aws-amplify';
-import awsConfig from './aws-exports';
 
-Amplify.configure(awsConfig); 
+console.log('=== Amplify 設定 start ===');
+
+// Amplify 설정
+Amplify.configure({
+  Auth: {
+    Cognito: {
+      userPoolId: 'ap-northeast-1_M8a6C9ANv',
+      userPoolClientId: '1oma17ste1l8b82oav7ltoaqfh'
+    }
+  }
+});
+
+console.log('=== Amplify 設定 end ===');
+console.log('設定 Auth:', Amplify.getConfig().Auth); 

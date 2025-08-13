@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import ForgotPassword from './ForgotPassword';
 
 interface LoginProps {
   onClickSignUp?: () => void;
@@ -10,6 +11,7 @@ const Login: React.FC<LoginProps> = ({ onClickSignUp }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
   const { signIn } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -18,14 +20,19 @@ const Login: React.FC<LoginProps> = ({ onClickSignUp }) => {
     setIsLoading(true);
     
     try {
-      const username = email.split('@')[0]; // emailからusernameを取得 (任意)
-      await signIn(username, password);
+      await signIn(email, password);
     } catch (error: any) {
       setError(error.message || 'ログインに失敗しました。');
     } finally {
       setIsLoading(false);
     }
   };
+
+  if (showForgotPassword) {
+    return (
+      <ForgotPassword onBackToLogin={() => setShowForgotPassword(false)} />
+    );
+  }
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center">
@@ -83,9 +90,10 @@ const Login: React.FC<LoginProps> = ({ onClickSignUp }) => {
                 Remember me
               </label>
             </div>
-            <a href="#" className="text-gray-600 hover:text-gray-800 text-[12px]">
+            <button type="button" onClick={() => setShowForgotPassword(true)}
+              className="text-gray-600 hover:text-gray-800 text-[12px]">
               Forgot password?
-            </a>
+            </button>
           </div>
 
           {/* error message */}
